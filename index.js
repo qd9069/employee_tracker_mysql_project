@@ -72,46 +72,90 @@ const menu = () => {
             },
         ])
         .then((data) => {
-            console.log(data)
+            // console.log(data);
 
             let option = data.mainOptions;
 
             // if view all departments is selected, then print the department table
             if (option === "View all departments") {
-                db.query('SELECT * FROM department', function (err, results) {
-                    const table = cTable.getTable(results);
-                    console.log(table);
-                });
+                db.promise().query('SELECT * FROM department')
+                    .then( ([rows,fields]) => {
+                        // console.log(rows);
+                        const table = cTable.getTable(rows);
+                        console.log(table);
+
+                        menu();
+                    })
             } else if (option === "View all roles") {
                 // if view all roles is selected, then print the role table
-                db.query('SELECT role.id, role.title, department.name as department, role.salary FROM role JOIN department ON role.department_id = department.id', 
-                function (err, results) {
-                    const table = cTable.getTable(results);
-                    console.log(table);
-                });
+                db.promise().query('SELECT role.id, role.title, department.name as department, role.salary FROM role JOIN department ON role.department_id = department.id')
+                    .then( ([rows,fields]) => {
+                        const table = cTable.getTable(rows);
+                        console.log(table);
+
+                        menu();
+                    })
             } else if (option === "View all employees") {
                 // if view all employees is selected, then print the employee table
                 // ************ need to fix the self join table *********
-                db.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name as department, role.salary, employee.manager_id as manager FROM employee JOIN role ON role_id = role.id JOIN department ON department_id = department.id', 
-                function (err, results) {
-                    const table = cTable.getTable(results);
-                    console.log(table);
-                });
-            } 
-            // else if () {
-            //     // if add a department is selected, then prompt questions for adding department
-            // } else if () {
-            //     // if add a role is selected, then prompt questions for adding role
-            // } else if () {
-            //     // if add an employee is selected, then propmt questions for adding employee
-            // } else {
-            //     // if update employee role is selected, then prompt questions for updating employee role
-            // }
-            
+                db.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name as department, role.salary, employee.manager_id as manager FROM employee JOIN role ON role_id = role.id JOIN department ON department_id = department.id')
+                    .then( ([rows,fields]) => {
+                        const table = cTable.getTable(rows);
+                        console.log(table);
+
+                        menu();
+                    })
+            } else if (option === "Add a department") {
+                // if add a department is selected, then prompt questions for adding department
+                addDepartment();
+            } else if (option === "Add a role") {
+                // if add a role is selected, then prompt questions for adding role
+                addRole();
+            } else if (option === "Add an employee") {
+                // if add an employee is selected, then propmt questions for adding employee
+                addEmployee();
+            } else if (option === "Update an employee role") {
+                // if update an employee role is selected, then prompt questions for updating employee role
+                updateEmployee();
+            }
+            // add more code here for additional options
         })
 
 }
 
+const addDepartment = () => {
+    inquirer
+        .prompt([ 
+            {
+            type: 'input',
+            message: 'What is the name of the department?',
+            name: 'departmentName',
+            },
+        ])
+        .then((data) => {
+            console.log(data);
+            const deptName = data.departmentName;
+            db.promise().query('INSERT INTO department (name) VALUES (?)', deptName)
+                .then( ([rows,fields]) => {
+                    // console.log(rows);
+                    console.log(`Added ${deptName} to the database`)
+                    menu();
+                })
+        })
+};
 
+// const addRole = () => {
+//     return;
+// }
+
+
+
+
+
+
+
+
+const addRole = () => {};
+const addEmployee = () => {};
 
 init();
