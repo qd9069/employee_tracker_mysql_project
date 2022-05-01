@@ -82,17 +82,34 @@ const menu = () => {
                     const table = cTable.getTable(results);
                     console.log(table);
                 });
-            }
-
-
-
-            // if view all roles is selected, then print the role table
-            // if view all employees is selected, then print the employee table
-            // if add a department is selected, then prompt questions for adding department
-            // if add a role is selected, then prompt questions for adding role
-            // if add an employee is selected, then propmt questions for adding employee
-            // if update employee role is selected, then prompt questions for updating employee role
+            } else if (option === "View all roles") {
+                // if view all roles is selected, then print the role table
+                db.query('SELECT role.id, role.title, department.name as department, role.salary FROM role JOIN department ON role.department_id = department.id', 
+                function (err, results) {
+                    const table = cTable.getTable(results);
+                    console.log(table);
+                });
+            } else if (option === "View all employees") {
+                // if view all employees is selected, then print the employee table
+                // ************ need to fix the self join table *********
+                db.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name as department, role.salary, employee.manager_id as manager FROM employee JOIN role ON role_id = role.id JOIN department ON department_id = department.id', 
+                function (err, results) {
+                    const table = cTable.getTable(results);
+                    console.log(table);
+                });
+            } 
+            // else if () {
+            //     // if add a department is selected, then prompt questions for adding department
+            // } else if () {
+            //     // if add a role is selected, then prompt questions for adding role
+            // } else if () {
+            //     // if add an employee is selected, then propmt questions for adding employee
+            // } else {
+            //     // if update employee role is selected, then prompt questions for updating employee role
+            // }
+            
         })
+
 }
 
 
