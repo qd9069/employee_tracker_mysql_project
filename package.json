@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3"
+  },
+  "name": "employee_tracker_mysql_project",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qd9069/employee_tracker_mysql_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qd9069/employee_tracker_mysql_project/issues"
+  },
+  "homepage": "https://github.com/qd9069/employee_tracker_mysql_project#readme"
+}
