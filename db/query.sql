@@ -15,5 +15,12 @@ SELECT employee.id, employee.first_name, employee.last_name, role.title, departm
 FROM employee
 JOIN role ON role_id = role.id
 JOIN department ON department_id = department.id;
--- JOIN employee m ON employee.manager_id = employee.id
+-- JOIN employee ON employee.manager_id = employee.id
 
+-- SELECT employee.manager_id
+-- FROM employee m
+-- JOIN employee e ON m.employee.manager_id = e.employee.id;
+
+-- SELECT employee.manager_id
+-- FROM employee 1, employee 2
+-- WHERE 1.employee.manager_id = 2.employee.id;
