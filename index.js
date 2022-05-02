@@ -113,10 +113,10 @@ const menu = () => {
                 addRole();
             } else if (option === "Add an employee") {
                 // if add an employee is selected, then propmt questions for adding employee
-                addEmployee();
+                // addEmployee();
             } else if (option === "Update an employee role") {
                 // if update an employee role is selected, then prompt questions for updating employee role
-                updateEmployee();
+                // updateEmployee();
             }
             // add more code here for additional options
         })
@@ -133,7 +133,7 @@ const addDepartment = () => {
             },
         ])
         .then((data) => {
-            console.log(data);
+            // console.log(data);
             const deptName = data.departmentName;
             db.promise().query('INSERT INTO department (name) VALUES (?)', deptName)
                 .then( ([rows,fields]) => {
@@ -144,18 +144,151 @@ const addDepartment = () => {
         })
 };
 
-// const addRole = () => {
-//     return;
-// }
+const addRole = () => {
+    inquirer
+        .prompt([ 
+            {
+            type: 'input',
+            message: 'What is the name of the role?',
+            name: 'roleName',
+            },
+            {
+            type: 'input',
+            message: 'What is the salary of the role?',
+            name: 'roleSalary',
+            },
+        ])
+        .then((value) => {
+            
+            choices().then(data => {
+            //    console.log("data " + JSON.stringify(data));
+                inquirer
+                    .prompt([ 
+                        {
+                        type: 'list',
+                        message: 'Which department does the role belong to?',
+                        name: 'roleInDepartment',
+                        choices: data,
+                        },
+                    ])
+                .then ((result) => {
+                    // console.log(result);
+                    // console.log(value);
+
+                    const title = value.roleName;
+                    const salary = value.roleSalary;
+                    const departmentName = result.roleInDepartment;
+                    
+                    db.query('SELECT id FROM department WHERE name = ?', departmentName, function (err, results) {
+                        // console.log(results);
+                        // console.log(results[0]);
+                        // console.log(results[0].id);
+                        
+
+                        db.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, results[0].id])
+                            .then( ([rows,fields]) => {
+                                // console.log(rows);
+                                console.log(`Added ${title} to the database`)
+                                menu();
+                            }).catch(console.log);
+
+                    });
+
+                })
+            })
+            
+           
+            
+            
+
+        })
+
+};
+
+const choices = () => {
+    return db.promise().query('SELECT department.name FROM department')
+        .then( ([rows,fields]) => {
+            // console.log(rows);
+
+            // console.log("test");
+            
+            const choiceArray = [];
+            for (i=0; i <rows.length; i++) {
+                
+                const newArray = choiceArray.push(rows[i].name)
+                // console.log(rows[i].name);
+                // console.log(choiceArray);
+            }
+            
+            return choiceArray;
+            // console.log(choiceArray);
+        });
+};
+
+const addEmployee = () => {
+    inquirer
+        .prompt([ 
+            {
+            type: 'input',
+            message: "What is the employee's first name?",
+            name: 'firstName',
+            },
+            {
+            type: 'input',
+            message: "What is the employee's last name?",
+            name: 'lastName',
+            },
+            {
+            type: 'list',
+            message: "What is the employee's role?",
+            name: 'roleChoices',
+            choices: ['xxx', 
+                    'yyy',
+                ],
+            },
+            {
+            type: 'list',
+            message: "who is the employee's manager?",
+            name: 'roleChoices',
+            choices: ['None', 
+                    'yyy',
+                ],
+            },
+        ])
+        .then((data) => {
+            console.log(data);
+            
+            db.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)', )
+                .then( ([rows,fields]) => {
+                    // console.log(rows);
+                    console.log(`Added ${managerName} to the database`)
+                    menu();
+                })
+        })
+};
+
+const updateEmployee = () => {
+    inquirer
+        .prompt([ 
+            {
+            type: 'list',
+            message: "Which employee's role do you want to update",
+            name: 'employeeToUpdate',
+            choices: ['xxx', 
+                    'yyy',
+                ],
+            },
+            {
+            type: 'list',
+            message: "Which role do you want to assign the selected employee?",
+            name: 'roleToUpdate',
+            choices: ['xxx', 
+                    'yyy',
+                ],
+            },
+        ])
+};
 
 
-
-
-
-
-
-
-const addRole = () => {};
-const addEmployee = () => {};
 
 init();
