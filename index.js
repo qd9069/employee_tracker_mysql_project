@@ -11,7 +11,7 @@ const db = mysql.createConnection(
       // MySQL username,
       user: 'root',
       // MySQL password
-      password: '',
+      password: 'mygui888',
       database: 'employees_db'
     },
     console.log(`Connected to the employees_db database.`)
@@ -197,10 +197,6 @@ const addRole = () => {
                 })
             })
             
-           
-            
-            
-
         })
 
 };
