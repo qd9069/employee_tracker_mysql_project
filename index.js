@@ -298,7 +298,7 @@ const addEmployee = () => {
             ])
     })
     .then (data => {
-        console.log(data);
+        // console.log(data);
 
         // get list of all employees's name + None
         employeeList().then(results => {
@@ -317,7 +317,7 @@ const addEmployee = () => {
                 ])
             .then(value => {
                 // get data from the prompt selections
-                console.log(value);
+                // console.log(value);
 
                 const firstName = data.firstName;
                 const lastName = data.lastName;
@@ -338,10 +338,8 @@ const addEmployee = () => {
                     db.query('SELECT id FROM employee WHERE first_name = ? AND last_name =?', [employeeFN, employeeLN], function (err, outcomes) {
                         // console.log(outcomes);
                         
-                        const managerId = outcomes[0].id;
-                        
-
-                        db.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [firstName, lastName, roleId, managerId])
+                        if (!outcomes[0]) {
+                            db.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, NULL)', [firstName, lastName, roleId])
                             .then( ([rows,fields]) => {
                                 // console.log(rows);
                                 // log message "Added employeeName to the database"
@@ -350,6 +348,19 @@ const addEmployee = () => {
                                 // show the main menu again
                                 menu();
                             }).catch(console.log);
+                        } else {
+                            const managerId = outcomes[0].id;
+    
+                            db.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [firstName, lastName, roleId, managerId])
+                                .then( ([rows,fields]) => {
+                                    // console.log(rows);
+                                    // log message "Added employeeName to the database"
+                                    console.log(`Added ${firstName} ${lastName} to the database`)
+                                    
+                                    // show the main menu again
+                                    menu();
+                                }).catch(console.log);
+                        }
 
                     });
                 });
@@ -358,8 +369,6 @@ const addEmployee = () => {
     });
 
 };
-
-// **************    need to figure out if null manager selected
 
 
 const updateEmployee = () => {
