@@ -11,7 +11,7 @@ const db = mysql.createConnection(
       // MySQL username,
       user: 'root',
       // MySQL password
-      password: 'mygui888',
+      password: '',
       database: 'employees_db'
     },
     console.log(`Connected to the employees_db database.`)
@@ -98,7 +98,7 @@ const menu = () => {
             } else if (option === "View all employees") {
                 // if view all employees is selected, then print the employee table
                 // ************ need to fix the self join table *********
-                db.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name as department, role.salary, employee.manager_id as manager FROM employee JOIN role ON role_id = role.id JOIN department ON department_id = department.id')
+                db.promise().query('SELECT e.id, e.first_name, e.last_name, role.title, department.name as department, role.salary, concat(m.first_name, " ", m.last_name) as manager FROM employee AS e JOIN role ON e.role_id = role.id JOIN department ON role.department_id = department.id left JOIN employee AS m ON e.manager_id = m.id')
                     .then( ([rows,fields]) => {
                         const table = cTable.getTable(rows);
                         console.log(table);
