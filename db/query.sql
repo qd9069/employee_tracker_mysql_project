@@ -30,3 +30,9 @@ FROM employee AS e
 JOIN role ON e.role_id = role.id
 JOIN department ON role.department_id = department.id
 left JOIN employee AS m ON e.manager_id = m.id;
+
+-- for viewing all employees with their names
+SELECT concat(e.first_name, " ", e.last_name) as employees
+FROM employee AS e
+left JOIN employee AS m ON e.manager_id = m.id;
+
