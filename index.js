@@ -116,7 +116,7 @@ const menu = () => {
                 addEmployee();
             } else if (option === "Update an employee role") {
                 // if update an employee role is selected, then prompt questions for updating employee role
-                // updateEmployee();
+                updateEmployee();
             }
             // add more code here for additional options
         })
@@ -242,14 +242,14 @@ const roleList = (sql) => {
         });
 };
 
-// function to generate list of all employees's name + None
-const employeeList = () => {
+// function to generate list of all employees' name + None
+const employeeList = (choiceArray) => {
     
     return db.promise().query('SELECT concat(e.first_name, " ", e.last_name) as employees FROM employee AS e left JOIN employee AS m ON e.manager_id = m.id')
     .then( ([rows,fields]) => {
         // console.log(rows);
 
-        const choiceArray = ["NULL"];
+        // const choiceArray = ["NULL"];
         for (i = 0; i < rows.length; i++) {
             
             const newArray = choiceArray.push(rows[i].employees)
@@ -301,7 +301,8 @@ const addEmployee = () => {
         // console.log(data);
 
         // get list of all employees's name + None
-        employeeList().then(results => {
+        const choiceArray = ["NULL"];
+        employeeList(choiceArray).then(results => {
             // console.log("results " + JSON.stringify(results));
 
             // prompt the question "who is the employee's manager?"
@@ -370,8 +371,13 @@ const addEmployee = () => {
 
 };
 
-
 const updateEmployee = () => {
+    
+    // to get a list of all employees' name
+    
+    
+    
+    
     inquirer
         .prompt([ 
             {
