@@ -26,6 +26,7 @@ Please follow the provided installation instruction below to set up the environm
 
 Please follow the installation instruction below to set up the development environment for running this application:
 - Clone the Repo for this application
+- Install [MySQL](https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/) in your local machine if you do not have one yet 
 - Open the terminal and find the directory where the Repo has been cloned to
 - Enter the following commands in terminal:
     - `npm init -y` - to generate the package.json and package-lock.json
@@ -41,12 +42,23 @@ Please follow the installation instruction below to set up the development envir
 
 Please follow the usage instruction here:
 - Clone this Repo to your computer
+- Open the terminal and go to the directory that this Repo has been cloned to, then open this `employee_tracker_mysql_project` folder
+    - Make sure to install MySQL before running the application
+    - To start MySQL: enter `mysql.server start` in your terminal
+- Enter the following comminds in terminal to pre-populate the database: 
+    - Make sure that you are in the `employee_tracker_mysql_project` folder
+    - `mysql -u root -p`
+        - enter your root password if there is one
+        - please go to `index.js` file and replace your own password in line 14 for creating connect to the database
+    - `source db/schema.sql;`
+    - `source db/seeds.sql;`
+    - `quit;` - to quit MySQL
+    ![image for mysql](assets/images/for-my-sql.png)
 - Follow the installation instruction above to install npm Inquirer, npm MySQL2 package, npm console.table package, and npm Figlet
     - This app will use npm console.table to print MySQL rows to the console
     - This app will use Inquirer to collect user input
     - This app will use MySQL2 package to connect to your MySQL database and perform queries
-- Open the terminal and go to the directory that this Repo has been cloned to
-- Type the following commands in terminal: 
+- Type the following commands in terminal to start the application: 
     - To start the app: `node index.js`
     - To stop the app: `Control+C` then close your terminal
 - Answer the prompts/questions that displayed in your terminal
