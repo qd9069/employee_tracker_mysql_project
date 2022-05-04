@@ -17,13 +17,6 @@ const db = mysql.createConnection(
     console.log(`Connected to the employees_db database.`)
 );
 
-// MySQL2 exposes a .promise() function on Connections, to "upgrade" an existing non-promise connection to use promise
-// db.promise().query("SELECT 1")
-//   .then( ([rows,fields]) => {
-//     console.log(rows);
-//   })
-//   .catch(console.log)
-//   .then( () => db.end());
 
 const init = () => {
     new Promise((resolve, reject) => {
@@ -44,7 +37,7 @@ const init = () => {
     .then(() => {
         menu();
     })
-}
+};
 
 
 const menu = () => {
@@ -119,9 +112,9 @@ const menu = () => {
                 updateEmployee();
             }
             // add more code here for additional options
-        })
+        });
 
-}
+};
 
 const addDepartment = () => {
     inquirer
@@ -259,7 +252,7 @@ const employeeList = (choiceArray) => {
         // console.log(choiceArray);
         return choiceArray;
     });
-} 
+};
 
 const addEmployee = () => {
 
@@ -295,7 +288,7 @@ const addEmployee = () => {
                 name: 'roleChoices',
                 choices: results,
                 },
-            ])
+            ]);
     })
     .then (data => {
         // console.log(data);
@@ -374,29 +367,82 @@ const addEmployee = () => {
 const updateEmployee = () => {
     
     // to get a list of all employees' name
+    const choiceArray = [];
+    employeeList(choiceArray).then(results => {
+        // console.log("results " + JSON.stringify(results));
+        return results;
+    })
+    .then (outcomes => {
+        // console.log(outcomes);
+        return inquirer
+            .prompt([ 
+                {
+                type: 'list',
+                message: "Which employee's role do you want to update?",
+                name: 'employeeToUpdate',
+                choices: outcomes,
+                },
+            ]);
+    })
+    .then (results => {
+        // console.log(results);
+
+        // to get a list of role.title
+        const sql = `SELECT title FROM role`;
+        roleList(sql).then(data => {
+            // console.log("data", JSON.stringify(data));
+
+            inquirer
+                .prompt([ 
+                    {
+                    type: 'list',
+                    message: "Which role do you want to assign the selected employee?",
+                    name: 'roleToUpdate',
+                    choices: data,
+                    },
+                ])
+            .then (outcomes => {
+                // console.log(outcomes);
+
+                empName = results.employeeToUpdate;
+                employeeFN = results.employeeToUpdate.split(" ")[0];
+                employeeLN = results.employeeToUpdate.split(" ")[1];
+                roleTitle = outcomes.roleToUpdate;
+                
+                
+                db.query('SELECT id FROM role WHERE title = ?', roleTitle, function (err, dbRoleId) {
+                    // console.log(dbRoleId);
+                    // console.log(dbRoleId[0].id);
+                    
+                    empRoleId = dbRoleId[0].id;
+                    
+                    db.query('SELECT id FROM employee WHERE first_name = ? AND last_name = ?', [employeeFN, employeeLN], function (err, dbId) {
+                        // console.log(dbId);
+                        
+                        empId = dbId[0].id;
+                        // console.log(empId);
     
+                        // query to update employee.role_id
+                        db.promise().query('UPDATE employee SET role_id = ? WHERE id = ?', [empRoleId, empId])
+                            .then( ([rows,fields]) => {
+                                // console.log(rows);
+                                // log message "Updated employeeName's role in the database"
+                                console.log(`Updated ${empName}'s role in the database`)
+                                
+                                // show the main menu again
+                                menu();
+                            }).catch(console.log);
     
-    
-    
-    inquirer
-        .prompt([ 
-            {
-            type: 'list',
-            message: "Which employee's role do you want to update",
-            name: 'employeeToUpdate',
-            choices: ['xxx', 
-                    'yyy',
-                ],
-            },
-            {
-            type: 'list',
-            message: "Which role do you want to assign the selected employee?",
-            name: 'roleToUpdate',
-            choices: ['xxx', 
-                    'yyy',
-                ],
-            },
-        ])
+                    });   
+
+                });
+
+            });
+
+        });
+
+    });
+
 };
 
 

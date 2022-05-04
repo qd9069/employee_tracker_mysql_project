@@ -36,3 +36,12 @@ SELECT concat(e.first_name, " ", e.last_name) as employees
 FROM employee AS e
 left JOIN employee AS m ON e.manager_id = m.id;
 
+
+-- for updating role_id in the employee table
+UPDATE employee
+-- SET: which column you want to update and the new value
+SET role_id = 3
+-- WHERE: which rows to be updated
+WHERE id = 1;
+
+-- UPDATE employee SET role_id = ? WHERE id = ?
