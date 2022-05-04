@@ -3,7 +3,7 @@
 ![badge of MIT license](https://img.shields.io/badge/license-MIT-9cf)
 
 ## Link
-Please click [here](https://watch.screencastify.com) to find the walkthrough video that demonstrates the functionality of the Employee Tracker application
+Please click [here](https://watch.screencastify.com/v/wvye9ykANRBWkEw1iPz9) to find the walkthrough video that demonstrates the functionality of the Employee Tracker application
 
 ## Description
 
@@ -45,7 +45,7 @@ Please follow the usage instruction here:
 - Open the terminal and go to the directory that this Repo has been cloned to, then open this `employee_tracker_mysql_project` folder
     - Make sure to install MySQL before running the application
     - To start MySQL: enter `mysql.server start` in your terminal
-- Enter the following comminds in terminal to pre-populate the database: 
+- Enter the following commands in terminal to pre-populate the database: 
     - Make sure that you are in the `employee_tracker_mysql_project` folder
     - `mysql -u root -p`
         - enter your root password if there is one
@@ -53,7 +53,7 @@ Please follow the usage instruction here:
     - `source db/schema.sql;`
     - `source db/seeds.sql;`
     - `quit;` - to quit MySQL
-    ![image for mysql](assets/images/for-my-sql.png)
+    - ![image for mysql](assets/images/for-my-sql.png)ß
 - Follow the installation instruction above to install npm Inquirer, npm MySQL2 package, npm console.table package, and npm Figlet
     - This app will use npm console.table to print MySQL rows to the console
     - This app will use Inquirer to collect user input
