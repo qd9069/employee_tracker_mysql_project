@@ -53,7 +53,7 @@ Please follow the usage instruction here:
     - `source db/schema.sql;`
     - `source db/seeds.sql;`
     - `quit;` - to quit MySQL
-    - ![image for mysql](assets/images/for-my-sql.png)ß
+    - ![image for mysql](assets/images/for-my-sql.png)
 - Follow the installation instruction above to install npm Inquirer, npm MySQL2 package, npm console.table package, and npm Figlet
     - This app will use npm console.table to print MySQL rows to the console
     - This app will use Inquirer to collect user input
@@ -71,6 +71,11 @@ Please follow the usage instruction here:
         - add an employee; and 
         - update an employee role
 - Press `Control+C` anytime in your terminal to stop the app
+
+** Note: if there is an error to start the application, please try to change the host to `127.0.0.1` in the index.js file for database connection. See screenshot below for reference **
+
+![image for fixing mysql error](assets/images/if-error-fix-local-host.png)
+
 
 ## Technology
 ```
